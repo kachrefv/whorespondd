@@ -40,11 +40,12 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  password      String?
+  hashedPassword String? // Changed from 'password' to 'hashedPassword'
   role          UserRole  @default(USER)
   accounts      Account[]
   sessions      Session[]
   orders        Order[]
+  products      Product[] // Added relation for products
 }
 
 model VerificationToken {
@@ -68,6 +69,8 @@ model Product {
   stock       Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  userId      String // Added userId field
+  user        User     @relation(fields: [userId], references: [id]) // Added relation to User
   orderItems  OrderItem[]
 }
 
